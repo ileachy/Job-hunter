@@ -3,33 +3,49 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/stlye.css" />
     <title>Job Hunter!</title>
   </head>
   <body>
-    <header>
-      <h1>The Job Hunter!</h1>
+    <header class="max-w-4xl mx-auto flex justify-start border-b-4">
+      <h1 class="font-bold text-4xl my-5 primary-color">The Job Hunter</h1> 
     </header>
-    <main>
-      <div>
-        <h2>Search your city!</h2>
-        <form>
-          <input type="text" />
-          <button type="submit">search</button>
-        </form>
-      </div>
-      <div>
-        <h2>"city"</h2>
-        <p></p>
-        <p></p>
-      </div>
-    </main>
+    
     <section>
-      <p></p>
+      <div class="grid grid-cols-2 max-w-4xl gap-4 mx-auto">
+        <div class="my-5">
+          <form class=" mb-0">
+            <input type="text" placeholder="Search for a City" class="w-1/2 my-3 mx-2">
+            <button class="max-w-sm bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-3 border-box border-b-4 border-blue-700 hover:border-blue-500 rounded my-3">Search</button>
+            <div class="my-2 mx-2">
+              <input type="radio" class="radio-primary" name="job-type" id="Standard-jobs" checked>
+              <label for="gob-jobs">Standard</label>
+              <input type="radio" class="radio-primary" name="job-type" id="gov-jobs">
+              <label for="gob-jobs">Government</label>
+            </div>
+          </form>
+        </div>
+
+        <div class="my-5">
+          <div class="">
+            <div>
+              <h3 class="text-xl font-bold">Bounty Hunter</h3>
+              <p>Catch some Jive ass fools</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <h3 class="font-bold text-2xl primary-color">Previous Searches</h3>
+        <ul class="">
+          <li>
+            <h4 class="text-l font-bold">Car Reposession</h4>
+            <p>Take cars from free loaders</p>
+          </li>
+        </ul>
+      </div>
     </section>
     <script src="./assets/js/script.js"></script>
   </body>
