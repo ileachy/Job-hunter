@@ -13,12 +13,13 @@ function searchFunction(event) {
   intSearch(searchTextJob, searchTextCity);
 }
 
+// searchJob, searchCity
 function intSearch(searchJob, searchCity) {
   // Jooble api
   var url = "https://jooble.org/api/";
   var key = "114d40cd-a3ab-41a2-8549-cf04a44659fb";
-  var params = "{ keywords:" + searchJob + ", location:" + searchCity + "}";
-  //"{ keywords: 'it', location: 'Columbus'}";
+  var params =
+    "{ keywords: '" + searchJob + "', location: '" + searchCity + "'}";
 
   //create xmlHttpRequest object
   var http = new XMLHttpRequest();
@@ -34,8 +35,8 @@ function intSearch(searchJob, searchCity) {
       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
-        //   console.log(joobleOrgName);
-        //   console.log(joobleTitle);
+        console.log(joobleOrgName);
+        console.log(joobleTitle);
       }
     }
   };
@@ -69,8 +70,8 @@ fetch(url, {
         data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
           .PositionTitle;
 
-      console.log(usaPosition);
-      console.log(usaOrganizationName);
+      //   console.log(usaPosition);
+      //   console.log(usaOrganizationName);
     }
   });
 
