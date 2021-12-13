@@ -1,0 +1,18 @@
+:root {
+    --primary-color: #161459;
+    --secondary-color: #010326;
+    --third-color: #010326;
+    --fourth-color: #3C74A6;
+    --fifth-color: #5ABFAD;
+}
+.primary-color {
+    color: var(--primary-color);
+}
+
+.bg-second {
+    background-color: var(--secondary-color);
+}
+
+/* .border {
+    border: 2px solid var(--fourth-color);
+} */
