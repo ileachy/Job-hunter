@@ -7,11 +7,11 @@ function searchFunction(event) {
   event.preventDefault();
   var searchTextJob = document.getElementById("text-search-job").value;
   var searchTextCity = document.getElementById("text-search-city").value;
-  var state = "Florida";
+  var searchTextState = document.getElementById("text-search-state").value;
 
   //   intSearch(searchTextJob, searchTextCity);
 
-  intSearchUSA(searchTextJob, searchTextCity, state);
+  intSearchUSA(searchTextJob, searchTextCity, searchTextState);
 }
 
 // Jooble api
