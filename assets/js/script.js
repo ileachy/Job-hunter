@@ -1,29 +1,47 @@
-// Jooble api
-var url = "https://jooble.org/api/";
-var key = "114d40cd-a3ab-41a2-8549-cf04a44659fb";
-var params = "{ keywords: 'it', location: 'Columbus'}";
+var btnSearch = document.getElementById("btn-search");
+var searchResults = document.querySelector(".search-results");
 
-//create xmlHttpRequest object
-var http = new XMLHttpRequest();
-//open connection. true - asynchronous, false - synchronous
-http.open("POST", url + key, true);
+btnSearch.addEventListener("click", searchFunction);
 
-//Send the proper header information
-http.setRequestHeader("Content-type", "application/json");
+function searchFunction(event) {
+  event.preventDefault();
+  var searchTextJob = document.getElementById("text-search-job").value;
+  var searchTextCity = document.getElementById("text-search-city").value;
+  var newLi = document.createElement("li");
+  newLi.textContent = searchTextJob;
+  searchResults.appendChild(newLi);
+  intSearch(searchTextJob, searchTextCity);
+}
 
-//Callback when the state changes
-http.onreadystatechange = function () {
-  if (http.readyState == 4 && http.status == 200) {
-    for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
-      var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
-      var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
-      console.log(joobleOrgName);
-      console.log(joobleTitle);
+function intSearch(searchJob, searchCity) {
+  // Jooble api
+  var url = "https://jooble.org/api/";
+  var key = "114d40cd-a3ab-41a2-8549-cf04a44659fb";
+  var params = "{ keywords:" + searchJob + ", location:" + searchCity + "}";
+  //"{ keywords: 'it', location: 'Columbus'}";
+
+  //create xmlHttpRequest object
+  var http = new XMLHttpRequest();
+  //open connection. true - asynchronous, false - synchronous
+  http.open("POST", url + key, true);
+
+  //Send the proper header information
+  http.setRequestHeader("Content-type", "application/json");
+
+  //Callback when the state changes
+  http.onreadystatechange = function () {
+    if (http.readyState == 4 && http.status == 200) {
+      for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
+        var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
+        var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
+        //   console.log(joobleOrgName);
+        //   console.log(joobleTitle);
+      }
     }
-  }
-};
-//Send request to the server
-http.send(params);
+  };
+  //Send request to the server
+  http.send(params);
+}
 
 // usajobs api
 var host = "data.usajobs.gov";
