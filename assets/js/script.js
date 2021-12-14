@@ -1,7 +1,8 @@
-var arr = {};
+var arr = [];
 var btnSearch = document.getElementById("btn-search");
 var searchResults = document.querySelector(".search-results");
 
+retrieveData();
 btnSearch.addEventListener("click", searchFunction);
 
 function searchFunction(event) {
@@ -11,11 +12,25 @@ function searchFunction(event) {
   var searchTextState = document.getElementById("text-search-state").value;
   var radioBTN = document.querySelector("input[name='job-type']:checked").value;
 
+  // Store the Data to local storage
+  var test = {
+    jobs: searchTextJob,
+    city: searchTextCity,
+    state: searchTextState,
+  };
+  arr.push(test);
+  storeData();
+
   // Radio btn to decide whether standard or government jobs
   if (radioBTN === "standard") {
     intSearch(searchTextJob, searchTextCity);
   } else if (radioBTN === "government") {
     intSearchUSA(searchTextJob, searchTextCity, searchTextState);
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    var searchHistory = document.createElement("li");
+    searchHistory.textContent = arr[i];
   }
 
   // Clear text areas
@@ -45,14 +60,29 @@ function intSearch(searchJob, searchCity) {
       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
+        var joobleDesc = JSON.parse(http.responseText).jobs[i].snippet;
+        var joobleSource = JSON.parse(http.responseText).jobs[i].source;
+        var joobleUpdated = JSON.parse(http.responseText).jobs[i].updated;
+        var joobleUpdatedSlice = joobleUpdated.substring(0, 9);
+
+        console.log(joobleUpdated);
 
         // Display on DOM
-
-        let newLi = document.createElement("li");
-        let p1 = document.createElement("p");
-        p1.textContent = joobleOrgName + ": " + joobleTitle;
-        newLi.appendChild(p1);
-        searchResults.appendChild(newLi);
+        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
+          <p class="text-gray-700 text-base">
+            ${joobleOrgName}
+          </p>
+          <p class="text-gray-700 text-base">
+            ${joobleDesc}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
+        </div>
+      </div>`;
       }
     }
   };
@@ -92,14 +122,46 @@ function intSearchUSA(searchJob, searchCity, searchState) {
         var usaPosition =
           data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
             .PositionTitle;
+        var usaPositionEndDate =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .PositionEndDate;
+        var usaPositionEndDateSlice =
+          "start: " + usaPositionEndDate.substring(0, 9);
 
+        var usaPositionStartDate =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .PositionStartDate;
+        var usaPositionStartDateSlice =
+          "end: " + usaPositionStartDate.substring(0, 9);
+        var usaPositionDesc =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .QualificationSummary;
+
+        var usaPositionDescSlice = usaPositionDesc.substring(0, 200) + "...";
+        var usePositionURL =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .PositionURI;
+
+        console.log(usePositionURL);
+
+        //  https://data.usajobs.gov/api/Search?RemunerationMinimumAmount=26000&RemunerationMaximumAmount=85000
         // Display on DOM
 
-        let newLi = document.createElement("li");
-        let p1 = document.createElement("p");
-        p1.textContent = usaPosition + ": " + usaOrganizationName;
-        newLi.appendChild(p1);
-        searchResults.appendChild(newLi);
+        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
+          <p class="text-gray-700 text-base">
+            ${usaOrganizationName}
+          </p>
+          <p class="text-gray-700 text-base">
+            ${usaPositionDescSlice}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
+        </div>
+      </div>`;
       }
     });
 }
@@ -109,5 +171,6 @@ function storeData() {
 }
 
 function retrieveData() {
-  searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+  var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
+  arr.push(arrJobs);
 }
