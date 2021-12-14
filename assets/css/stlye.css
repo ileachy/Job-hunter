@@ -4,6 +4,9 @@
     --third-color: #010326;
     --fourth-color: #3C74A6;
     --fifth-color: #5ABFAD;
+
+    --color-bird: rgb(43, 2, 69);
+    --color-title: #370624;
 }
 .primary-color {
     color: var(--primary-color);
@@ -12,7 +15,18 @@
 .bg-second {
     background-color: var(--secondary-color);
 }
+img {
+    width: 100%;
+    padding: 10px;
+}
 
+h1 {
+    color: var(--color-title);
+}
+.img-sizer {
+    width:50%;
+    height: 50%;
+}
 /* .border {
     border: 2px solid var(--fourth-color);
 } */

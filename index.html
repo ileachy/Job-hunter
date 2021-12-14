@@ -8,11 +8,18 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/css/stlye.css" />
-    <title>Job Hunter!</title>
+    <title> Job Hunter! </title>
   </head>
   <body>
     <header class="max-w-4xl mx-auto flex justify-start border-b-4">
-      <h1 class="font-bold text-4xl my-5 primary-color">The Job Hunter</h1>
+      <div class="grid grid-cols-1">
+        <div class="img-sizer">
+          <img src="./assets/logo.png">
+        </div>
+      </div>
+      <div>
+        <h1 class="grid grid-cols-2 max-w-4xl gap-4 mx-auto font-bold text-4xl my-5 --color-title">The Job Hunter</h1>
+      </div>
     </header>
 
     <section>
@@ -89,11 +96,7 @@
 
       <div class="max-w-4xl mx-auto">
         <h3 class="font-bold text-2xl primary-color">Previous Searches</h3>
-        <ul class="">
-          <li>
-            <h4 class="text-l font-bold">Car Reposession</h4>
-            <p></p>
-          </li>
+        <ul class="" id="previous-search">
         </ul>
       </div>
     </section>
