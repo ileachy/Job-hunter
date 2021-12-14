@@ -1,3 +1,4 @@
+var arr = {};
 var btnSearch = document.getElementById("btn-search");
 var searchResults = document.querySelector(".search-results");
 
@@ -8,47 +9,56 @@ function searchFunction(event) {
   var searchTextJob = document.getElementById("text-search-job").value;
   var searchTextCity = document.getElementById("text-search-city").value;
   var searchTextState = document.getElementById("text-search-state").value;
+  var radioBTN = document.querySelector("input[name='job-type']:checked").value;
 
-  //   intSearch(searchTextJob, searchTextCity);
+  // Radio btn to decide whether standard or government jobs
+  if (radioBTN === "standard") {
+    intSearch(searchTextJob, searchTextCity);
+  } else if (radioBTN === "government") {
+    intSearchUSA(searchTextJob, searchTextCity, searchTextState);
+  }
 
-  intSearchUSA(searchTextJob, searchTextCity, searchTextState);
+  // Clear text areas
+  searchTextJob.textContent = "";
+  searchTextCity.textContent = "";
+  searchTextState.textContent = "";
 }
 
 // Jooble api
-// function intSearch(searchJob, searchCity) {
-//   var url = "https://jooble.org/api/";
-//   var key = "114d40cd-a3ab-41a2-8549-cf04a44659fb";
-//   var params =
-//     "{ keywords: '" + searchJob + "', location: '" + searchCity + "'}";
+function intSearch(searchJob, searchCity) {
+  var url = "https://jooble.org/api/";
+  var key = "114d40cd-a3ab-41a2-8549-cf04a44659fb";
+  var params =
+    "{ keywords: '" + searchJob + "', location: '" + searchCity + "'}";
 
-//   //create xmlHttpRequest object
-//   var http = new XMLHttpRequest();
-//   //open connection. true - asynchronous, false - synchronous
-//   http.open("POST", url + key, true);
+  //create xmlHttpRequest object
+  var http = new XMLHttpRequest();
+  //open connection. true - asynchronous, false - synchronous
+  http.open("POST", url + key, true);
 
-//   //Send the proper header information
-//   http.setRequestHeader("Content-type", "application/json");
+  //Send the proper header information
+  http.setRequestHeader("Content-type", "application/json");
 
-//   //Callback when the state changes
-//   http.onreadystatechange = function () {
-//     if (http.readyState == 4 && http.status == 200) {
-//       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
-//         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
-//         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
+  //Callback when the state changes
+  http.onreadystatechange = function () {
+    if (http.readyState == 4 && http.status == 200) {
+      for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
+        var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
+        var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
 
-//         // Display on DOM
+        // Display on DOM
 
-//         let newLi = document.createElement("li");
-//         let p1 = document.createElement("p");
-//         p1.textContent = joobleOrgName + ": " + joobleTitle;
-//         newLi.appendChild(p1);
-//         searchResults.appendChild(newLi);
-//       }
-//     }
-//   };
-//   //Send request to the server
-//   http.send(params);
-// }
+        let newLi = document.createElement("li");
+        let p1 = document.createElement("p");
+        p1.textContent = joobleOrgName + ": " + joobleTitle;
+        newLi.appendChild(p1);
+        searchResults.appendChild(newLi);
+      }
+    }
+  };
+  //Send request to the server
+  http.send(params);
+}
 
 // usajobs api
 function intSearchUSA(searchJob, searchCity, searchState) {
@@ -90,9 +100,14 @@ function intSearchUSA(searchJob, searchCity, searchState) {
         p1.textContent = usaPosition + ": " + usaOrganizationName;
         newLi.appendChild(p1);
         searchResults.appendChild(newLi);
-
-        console.log(usaPosition);
-        console.log(usaOrganizationName);
       }
     });
+}
+
+function storeData() {
+  localStorage.setItem("searchHistory", JSON.stringify(arr));
+}
+
+function retrieveData() {
+  searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
 }
