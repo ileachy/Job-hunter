@@ -1,105 +1,70 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./assets/css/stlye.css" />
-    <title> Job Hunter! </title>
-  </head>
-  <body>
-    <header class="max-w-4xl mx-auto flex justify-start border-b-4">
-      <div class="grid grid-cols-1">
-        <div class="img-sizer">
-          <img src="./assets/logo.png">
-        </div>
-      </div>
-      <div>
-        <h1 class="grid grid-cols-2 max-w-4xl gap-4 mx-auto font-bold text-4xl my-5 --color-title">The Job Hunter</h1>
-      </div>
-    </header>
 
-    <section>
-      <div class="grid grid-cols-2 max-w-4xl gap-4 mx-auto">
-        <div class="my-5">
-          <form class="mb-0">
-            <input
-              type="text"
-              placeholder="Enter Job to search for:"
-              class="w-1/2 my-3 mx-2"
-              id="text-search-job"
-            />
-            <input
-              type="text"
-              placeholder="Enter city for job search:"
-              class="w-1/2 my-3 mx-2"
-              id="text-search-city"
-            />
-            <input
-              type="text"
-              placeholder="Enter state for job search:"
-              class="w-1/2 my-3 mx-2"
-              id="text-search-state"
-            />
-            <button
-              class="
-                max-w-sm
-                bg-blue-500
-                hover:bg-blue-400
-                text-white
-                font-bold
-                py-1
-                px-3
-                border-box border-b-4 border-blue-700
-                hover:border-blue-500
-                rounded
-                my-3
-              "
-              id="btn-search"
-            >
-              Search
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./assets/css/stlye.css" />
+  <title> Job Hunter! </title>
+</head>
+
+<body>
+  <header class="max-w-4xl mx-auto flex justify-start border-b-2 border-indigo-800 border-opacity-25">
+    <div class="grid grid-cols-1">
+      <div class="w-20 h-20">
+        <img src="./assets/logo2.png">
+      </div>
+    </div>
+    <div>
+      <h1 class="grid grid-cols-2 max-w-4xl gap-4 mx-auto font-bold text-4xl my-5 --color-title">Job Hunter</h1>
+    </div>
+  </header>
+
+  <section>
+    <!-- <input type="file" name="file" id="file"> -->
+    <div class="grid grid-cols-2 max-w-4xl gap-4 mx-auto ">
+      <div class="my-5">
+        <form class="mb-0" id="job-search">
+          <div class="flex items-center">
+            <input type="text" placeholder="Search for Job Titles" class="w-1/2 my-3 mx-2" id="text-search-job" />
+            <input type="text" placeholder="San Diego, California" class="w-1/2 my-3 mx-2" id="text-search-city" />
+            <!-- <input type="text" placeholder="Enter state for job search:" class="w-1/2 my-3 mx-2" id="text-search-state" /> -->
+            <button class="inline-flex items-center h-6 px-3 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
             </button>
-            <div class="my-2 mx-2">
-              <input
-                type="radio"
-                value="standard"
-                class="radio-primary"
-                name="job-type"
-                id="Standard-jobs"
-                checked
-              />
-              <label for="gob-jobs">Standard</label>
-              <input
-                type="radio"
-                value="government"
-                class="radio-primary"
-                name="job-type"
-                id="gov-jobs"
-              />
-              <label for="gob-jobs">Government</label>
-            </div>
-          </form>
-        </div>
+          </div>
+          
+          
+          <div class="my-2 mx-2">
+            <input type="radio" value="standard" class="radio-primary" name="job-type" id="Standard-jobs" checked />
+            <label for="gob-jobs">Standard</label>
+            <input type="radio" value="government" class="radio-primary" name="job-type" id="gov-jobs" />
+            <label for="gob-jobs">Government</label>
+          </div>
+        </form>
+      </div>
 
-        <div class="my-5">
-          <div class="">
-            <div>
-              <h3 class="text-xl font-bold">Bounty Hunter</h3>
-              <ul class="search-results"></ul>
-            </div>
+      <div class="my-5">
+        <div class="">
+          <div>
+            <h1 class="" id="search-result-header"></h1>
+            <ul class="search-results overflow-y-auto h-96 no-scrollbar" id="search-results"></ul>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="max-w-4xl mx-auto">
-        <h3 class="font-bold text-2xl primary-color">Previous Searches</h3>
-        <ul class="" id="previous-search">
-        </ul>
-      </div>
-    </section>
-    <script src="./assets/js/script.js"></script>
-  </body>
+    <div class="max-w-4xl mx-auto">
+      <h3 class="font-bold text-2xl primary-color">Previous Searches</h3>
+      <ul class="" id="previous-search">
+      </ul>
+    </div>
+  </section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="./assets/js/script.js"></script>
+</body>
+
 </html>
