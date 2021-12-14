@@ -30,8 +30,8 @@
             <input type="text" placeholder="Search for Job Titles" class="w-1/2 my-3 mx-2" id="text-search-job" />
             <input type="text" placeholder="San Diego, California" class="w-1/2 my-3 mx-2" id="text-search-city" />
             <!-- <input type="text" placeholder="Enter state for job search:" class="w-1/2 my-3 mx-2" id="text-search-state" /> -->
-            <button class="inline-flex items-center h-6 px-3 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button class="inline-flex items-center h-6 px-3 text-indigo-100 transition-colors duration-150 bg-purple-900 rounded-lg focus:shadow-outline hover:bg-purple-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
             </button>
@@ -58,9 +58,9 @@
     </div>
 
     <div class="max-w-4xl mx-auto">
-      <h3 class="font-bold text-2xl primary-color">Previous Searches</h3>
-      <ul class="" id="previous-search">
-      </ul>
+      <h3 class="font-bold text-2xl primary-color">Saved Jobs</h3>
+      <div class="grid grid-cols-2 gap-4 overflow-y-auto h-96 no-scrollbar" id="previous-search">
+      </div>
     </div>
   </section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
