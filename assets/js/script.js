@@ -1,7 +1,9 @@
-var arr = {};
+var arr = [];
 var btnSearch = document.getElementById("btn-search");
 var searchResults = document.querySelector(".search-results");
 
+
+retrieveData();
 btnSearch.addEventListener("click", searchFunction);
 
 function searchFunction(event) {
@@ -10,6 +12,16 @@ function searchFunction(event) {
   var searchTextCity = document.getElementById("text-search-city").value;
   var searchTextState = document.getElementById("text-search-state").value;
   var radioBTN = document.querySelector("input[name='job-type']:checked").value;
+  // var 
+
+  // Store the Data to local storage
+  var test = {
+    jobs: searchTextJob,
+    city: searchTextCity,
+    state:  searchTextState,
+  };
+  arr.push(test);
+  storeData();
 
   // Radio btn to decide whether standard or government jobs
   if (radioBTN === "standard") {
@@ -17,6 +29,13 @@ function searchFunction(event) {
   } else if (radioBTN === "government") {
     intSearchUSA(searchTextJob, searchTextCity, searchTextState);
   }
+
+  for (let i=0; i<arr.length; i++) {
+    var searchHistory = document.createElement("li");
+    searchHistory.textContent = arr[i];
+  }
+
+
 
   // Clear text areas
   searchTextJob.textContent = "";
@@ -47,12 +66,24 @@ function intSearch(searchJob, searchCity) {
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
 
         // Display on DOM
-
-        let newLi = document.createElement("li");
-        let p1 = document.createElement("p");
-        p1.textContent = joobleOrgName + ": " + joobleTitle;
-        newLi.appendChild(p1);
-        searchResults.appendChild(newLi);
+        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
+          <p class="text-gray-700 text-base">
+            ${joobleOrgName}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+        </div>
+      </div>`
+        // let newLi = document.createElement("li");
+        // let p1 = document.createElement("p");
+        // p1.textContent = joobleOrgName + ": " + joobleTitle;
+        // newLi.appendChild(p1);
+        // searchResults.appendChild(newLi);
       }
     }
   };
@@ -95,11 +126,24 @@ function intSearchUSA(searchJob, searchCity, searchState) {
 
         // Display on DOM
 
-        let newLi = document.createElement("li");
-        let p1 = document.createElement("p");
-        p1.textContent = usaPosition + ": " + usaOrganizationName;
-        newLi.appendChild(p1);
-        searchResults.appendChild(newLi);
+        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
+          <p class="text-gray-700 text-base">
+            ${usaOrganizationName}
+          </p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+        </div>
+      </div>`
+        // let newLi = document.createElement("li");
+        // let p1 = document.createElement("p");
+        // p1.textContent = usaPosition + ": " + usaOrganizationName;
+        // newLi.appendChild(p1);
+        // searchResults.appendChild(newLi);
       }
     });
 }
@@ -109,5 +153,6 @@ function storeData() {
 }
 
 function retrieveData() {
-  searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+  var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
+  arr.push(arrJobs);
 }
