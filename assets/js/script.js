@@ -1,46 +1,53 @@
 var arr = [];
-var btnSearch = document.getElementById("btn-search");
+var btnSearch = document.getElementById("job-search");
 var searchResults = document.querySelector(".search-results");
-
+var resultContainer = document.getElementById("search-result-header");
 
 retrieveData();
-btnSearch.addEventListener("click", searchFunction);
+
+
+btnSearch.addEventListener("submit", searchFunction);
 
 function searchFunction(event) {
   event.preventDefault();
-  var searchTextJob = document.getElementById("text-search-job").value;
-  var searchTextCity = document.getElementById("text-search-city").value;
-  var searchTextState = document.getElementById("text-search-state").value;
+
+  // Need this to remove previous job searches from the page
+  $("#search-results").children().each(function () {
+    $(this).remove();
+  });
+
+  var searchTextJob = document.getElementById("text-search-job");
+  var searchTextCity = document.getElementById("text-search-city");
+  // var searchTextState = document.getElementById("text-search-state").value;
   var radioBTN = document.querySelector("input[name='job-type']:checked").value;
-  // var 
+
+  var location = parseCityState(searchTextCity.value);
 
   // Store the Data to local storage
-  var test = {
-    jobs: searchTextJob,
-    city: searchTextCity,
-    state:  searchTextState,
+  var searchData = {
+    job: searchTextJob.value,
+    city: location.city,
+    state: location.state,
   };
-  arr.push(test);
+  arr.push(searchData);
   storeData();
 
   // Radio btn to decide whether standard or government jobs
   if (radioBTN === "standard") {
-    intSearch(searchTextJob, searchTextCity);
-  } else if (radioBTN === "government") {
-    intSearchUSA(searchTextJob, searchTextCity, searchTextState);
+    intSearch(searchData.job, searchData.city);
+  } else {
+    intSearchUSA(searchData.job, searchData.city, searchData.state);
   }
 
-  for (let i=0; i<arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     var searchHistory = document.createElement("li");
     searchHistory.textContent = arr[i];
   }
 
-
-
   // Clear text areas
-  searchTextJob.textContent = "";
-  searchTextCity.textContent = "";
-  searchTextState.textContent = "";
+  searchTextJob.value = "";
+  searchTextCity.value = "";
+  // searchTextState.textContent = "";
 }
 
 // Jooble api
@@ -61,30 +68,34 @@ function intSearch(searchJob, searchCity) {
   //Callback when the state changes
   http.onreadystatechange = function () {
     if (http.readyState == 4 && http.status == 200) {
+      resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity;
+      resultContainer.setAttribute("class", "pb-3 font-medium");
+
+      console.log(JSON.parse(http.responseText))
+
+
       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
 
         // Display on DOM
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <div class="px-6 py-4">
+        <div class="px-6 py-4 border-purple-900">
           <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
           <p class="text-gray-700 text-base">
             ${joobleOrgName}
           </p>
         </div>
-        <div class="px-6 pt-4 pb-2">
+        <div class="px-6 pt-4 pb-2 border-b-2 s-purple-900">
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
         </div>
       </div>`
-        // let newLi = document.createElement("li");
-        // let p1 = document.createElement("p");
-        // p1.textContent = joobleOrgName + ": " + joobleTitle;
-        // newLi.appendChild(p1);
-        // searchResults.appendChild(newLi);
       }
+    } else {
+      resultContainer.textContent = "Could not find results for '" + searchJob + "' near " + searchCity + " please try again";
+      resultContainer.setAttribute("class", "pb-3 font-medium");
     }
   };
   //Send request to the server
@@ -96,13 +107,7 @@ function intSearchUSA(searchJob, searchCity, searchState) {
   var host = "data.usajobs.gov";
   var userAgent = "ileach81@gmail.com";
   var authKey = "DOjDrxB7JE8vgKd3ajtL9XhA7+TQudbZSTT2N6tzPlo=";
-  var url =
-    "https://data.usajobs.gov/api/search?Keyword=" +
-    searchJob +
-    "&LocationName=" +
-    searchCity +
-    ",%20" +
-    searchState;
+  var url = "https://data.usajobs.gov/api/search?Keyword=" + searchJob + "&LocationName=" + searchCity + ",%20" + searchState;
   //"https://data.usajobs.gov/api/search?Keyword=Developer&LocationName=Boulder,%20Colorado";
   fetch(url, {
     method: "GET",
@@ -125,6 +130,14 @@ function intSearchUSA(searchJob, searchCity, searchState) {
             .PositionTitle;
 
         // Display on DOM
+        if (searchState === "") {
+          resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity;
+          resultContainer.setAttribute("class", "pb-3 font-medium");
+        } else {
+          resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity + ", " + searchState;
+          resultContainer.setAttribute("class", "pb-3 font-medium");
+        }
+
 
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
@@ -139,11 +152,6 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
         </div>
       </div>`
-        // let newLi = document.createElement("li");
-        // let p1 = document.createElement("p");
-        // p1.textContent = usaPosition + ": " + usaOrganizationName;
-        // newLi.appendChild(p1);
-        // searchResults.appendChild(newLi);
       }
     });
 }
@@ -154,5 +162,28 @@ function storeData() {
 
 function retrieveData() {
   var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
-  arr.push(arrJobs);
+  if (arrJobs) {
+    for (job of arrJobs) {
+      arr.push(job);
+    }
+  }
 }
+
+function parseCityState(string) {
+  if (typeof string.split(",")[1] == "undefined") {
+    var location = {
+      city: string.split(",")[0],
+      state: ""
+    };
+  } else {
+    var holdStringLeft = string.split(",")[0];
+    var holdStringRight = string.split(",")[1].split(" ")[1];
+
+    var location = {
+      city: holdStringLeft,
+      state: holdStringRight
+    };
+  }
+
+  return location;
+};

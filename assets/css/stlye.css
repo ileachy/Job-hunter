@@ -7,6 +7,8 @@
 
     --color-bird: rgb(43, 2, 69);
     --color-title: #370624;
+    --color-second: #FEB93F;
+    
 }
 .primary-color {
     color: var(--primary-color);
@@ -30,3 +32,16 @@ h1 {
 /* .border {
     border: 2px solid var(--fourth-color);
 } */
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+
+
