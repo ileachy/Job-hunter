@@ -2,7 +2,6 @@ var arr = [];
 var btnSearch = document.getElementById("btn-search");
 var searchResults = document.querySelector(".search-results");
 
-
 retrieveData();
 btnSearch.addEventListener("click", searchFunction);
 
@@ -12,13 +11,13 @@ function searchFunction(event) {
   var searchTextCity = document.getElementById("text-search-city").value;
   var searchTextState = document.getElementById("text-search-state").value;
   var radioBTN = document.querySelector("input[name='job-type']:checked").value;
-  // var 
+  // var
 
   // Store the Data to local storage
   var test = {
     jobs: searchTextJob,
     city: searchTextCity,
-    state:  searchTextState,
+    state: searchTextState,
   };
   arr.push(test);
   storeData();
@@ -30,12 +29,10 @@ function searchFunction(event) {
     intSearchUSA(searchTextJob, searchTextCity, searchTextState);
   }
 
-  for (let i=0; i<arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     var searchHistory = document.createElement("li");
     searchHistory.textContent = arr[i];
   }
-
-
 
   // Clear text areas
   searchTextJob.textContent = "";
@@ -65,6 +62,8 @@ function intSearch(searchJob, searchCity) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
 
+        console.log(http.responseText);
+
         // Display on DOM
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
@@ -78,7 +77,7 @@ function intSearch(searchJob, searchCity) {
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
         </div>
-      </div>`
+      </div>`;
         // let newLi = document.createElement("li");
         // let p1 = document.createElement("p");
         // p1.textContent = joobleOrgName + ": " + joobleTitle;
@@ -138,7 +137,7 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
           <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
         </div>
-      </div>`
+      </div>`;
         // let newLi = document.createElement("li");
         // let p1 = document.createElement("p");
         // p1.textContent = usaPosition + ": " + usaOrganizationName;
