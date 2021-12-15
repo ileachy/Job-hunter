@@ -60,8 +60,12 @@ header {
   border-color: var(--color-title);
 }
 
+#gov-label {
+  margin-left: 25px;
+}
+
 /* Media Queries */
-@media screen and (max-width: 413px) {
+@media screen and (max-width: 415px) {
   .items-center {
     display: flex;
     flex-direction: column;
