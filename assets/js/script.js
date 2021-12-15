@@ -73,7 +73,7 @@ function intSearch(searchJob, searchCity) {
     if (http.readyState == 4 && http.status == 200) {
       resultContainer.textContent =
         "All '" + searchJob + "' results near " + searchCity;
-      resultContainer.setAttribute("class", "pb-3 font-medium");
+      resultContainer.setAttribute("class", "pb-3 font-medium font-bold mb-5");
 
       console.log(JSON.parse(http.responseText));
 
