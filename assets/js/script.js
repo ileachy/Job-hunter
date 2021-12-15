@@ -1,14 +1,19 @@
-var arr = [];
+var arrSearchHistory = []; //array to store search history
+
+// DOM variables
 var btnSearch = document.getElementById("job-search");
 var searchResults = document.querySelector(".search-results");
 var resultContainer = document.getElementById("search-result-header");
 var previousSearches = document.getElementById("previous-search");
 
+// Function calls on search history
 retrieveData();
 displaySavedSearches();
 
+//button to activate search
 btnSearch.addEventListener("submit", searchFunction);
 
+// search function
 function searchFunction(event) {
   event.preventDefault();
 
@@ -19,9 +24,9 @@ function searchFunction(event) {
       $(this).remove();
     });
 
+  // Retrieves user input
   var searchTextJob = document.getElementById("text-search-job");
   var searchTextCity = document.getElementById("text-search-city");
-  // var searchTextState = document.getElementById("text-search-state").value;
   var radioBTN = document.querySelector("input[name='job-type']:checked").value;
 
   var location = parseCityState(searchTextCity.value);
@@ -32,8 +37,6 @@ function searchFunction(event) {
     city: location.city,
     state: location.state,
   };
-  // arr.push(searchData);
-  // storeData();
 
   // Radio btn to decide whether standard or government jobs
   if (radioBTN === "standard") {
@@ -42,15 +45,15 @@ function searchFunction(event) {
     intSearchUSA(searchData.job, searchData.city, searchData.state);
   }
 
-  for (let i = 0; i < arr.length; i++) {
+  // loops through search history array and displays elements from array
+  for (let i = 0; i < arrSearchHistory.length; i++) {
     var searchHistory = document.createElement("li");
-    searchHistory.textContent = arr[i];
+    searchHistory.textContent = arrSearchHistory[i];
   }
 
   // Clear text areas
   searchTextJob.value = "";
   searchTextCity.value = "";
-  // searchTextState.textContent = "";
 }
 
 // Jooble api
@@ -75,8 +78,7 @@ function intSearch(searchJob, searchCity) {
         "All '" + searchJob + "' results near " + searchCity;
       resultContainer.setAttribute("class", "pb-3 font-medium font-bold mb-5");
 
-      console.log(JSON.parse(http.responseText));
-
+      // Loops through JSON data and displays parsed data of interest
       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
@@ -84,10 +86,6 @@ function intSearch(searchJob, searchCity) {
         var joobleSource = JSON.parse(http.responseText).jobs[i].source;
         var joobleUpdated = JSON.parse(http.responseText).jobs[i].updated;
         var joobleUpdatedSlice = joobleUpdated.substring(0, 9);
-
-        console.log(joobleUpdated); 
-
-        console.log(http.responseText);
 
         // Display on DOM
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -119,29 +117,13 @@ function intSearch(searchJob, searchCity) {
             </div>
           </div>
             `;
-
-        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        //   <div class="px-6 py-4">
-        //     <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
-        //     <p class="text-gray-700 text-base">
-        //       ${joobleOrgName}
-        //     </p>
-        //     <p class="text-gray-700 text-base">
-        //       ${joobleDesc}
-        //     </p>
-        //   </div>
-        //   <div class="px-6 pt-4 pb-2">
-        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
-        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
-        //   </div>
-        // </div>`;
       }
     } else {
       resultContainer.textContent =
         "Could not find results for '" +
         searchJob +
         "' near " +
-        searchCity + 
+        searchCity +
         " please try again";
       resultContainer.setAttribute("class", "pb-3 font-medium");
     }
@@ -164,7 +146,7 @@ function intSearch(searchJob, searchCity) {
           type: "Standard",
         };
 
-        arr.push(holdObj);
+        arrSearchHistory.push(holdObj);
         storeData();
       });
     });
@@ -225,9 +207,6 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
             .PositionURI;
 
-        console.log(usePositionURL);
-
-        //  https://data.usajobs.gov/api/Search?RemunerationMinimumAmount=26000&RemunerationMaximumAmount=85000
         // Display on DOM
         if (searchState === "") {
           resultContainer.textContent =
@@ -244,7 +223,7 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           resultContainer.setAttribute("class", "pb-3 font-medium");
         }
 
-          searchResults.innerHTML += `
+        searchResults.innerHTML += `
           <div class="max-w-sm rounded overflow-hidden shadow-lg">
           <div class="px-6 py-4 border-purple-900" id="job-container-gov">
                 <div class="font-bold text-xl mb-2 flex justify-between" id="job-title"> 
@@ -273,22 +252,6 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           </div>
         </div>
         `;
-
-        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        //   <div class="px-6 py-4">
-        //     <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
-        //     <p class="text-gray-700 text-base">
-        //       ${usaOrganizationName}
-        //     </p>
-        //     <p class="text-gray-700 text-base">
-        //       ${usaPositionDescSlice}
-        //     </p>
-        //   </div>
-        //   <div class="px-6 pt-4 pb-2">
-        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
-        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
-        //   </div>
-        // </div>`;
       }
       console.log(
         $("*[id=job-container-gov").each(function () {
@@ -305,7 +268,7 @@ function intSearchUSA(searchJob, searchCity, searchState) {
               state: searchState,
               type: "Government",
             };
-            arr.push(holdObj);
+            arrSearchHistory.push(holdObj);
             storeData();
           });
         })
@@ -315,15 +278,15 @@ function intSearchUSA(searchJob, searchCity, searchState) {
 
 // stores data to local storage
 function storeData() {
-  localStorage.setItem("searchHistory", JSON.stringify(arr));
+  localStorage.setItem("searchHistory", JSON.stringify(arrSearchHistory));
 }
 
 // gets data from local storage
 function retrieveData() {
-  var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
-  if (arrJobs) {
-    for (job of arrJobs) {
-      arr.push(job);
+  var arrSearchHistoryJobs = JSON.parse(localStorage.getItem("searchHistory"));
+  if (arrSearchHistoryJobs) {
+    for (job of arrSearchHistoryJobs) {
+      arrSearchHistory.push(job);
     }
   }
 }
@@ -349,7 +312,7 @@ function parseCityState(string) {
 
 // To display saved jobs on the page
 function displaySavedSearches() {
-  for (job of arr) {
+  for (job of arrSearchHistory) {
     previousSearches.innerHTML += `
     <div class="max-w-sm w-full lg:max-w-full lg:border-b border-r border-b shadow-md">
       <div class=" border-gray-400 lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 justify-between leading-normal ">
