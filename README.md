@@ -2,7 +2,7 @@
 
 ## Description
 
-- A Job search app that allows you to search a job title and see salary information.
+- A Job search engine that allows .
 
 ## Project group info
 
