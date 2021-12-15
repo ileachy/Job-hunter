@@ -47,3 +47,8 @@ body {
     height: 100vh;
 }
 
+footer {
+    margin-top: 200px;
+    color: var(--color-second);
+    background-color: var(--color-title);
+}
