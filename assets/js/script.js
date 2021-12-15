@@ -85,60 +85,63 @@ function intSearch(searchJob, searchCity) {
         var joobleUpdated = JSON.parse(http.responseText).jobs[i].updated;
         var joobleUpdatedSlice = joobleUpdated.substring(0, 9);
 
-        console.log(joobleUpdated);
+        console.log(joobleUpdated); 
 
         console.log(http.responseText);
 
         // Display on DOM
-        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        //     <div class="px-6 py-4 border-purple-900" id="job-container">
-        //       <div class="font-bold text-xl mb-2" id="job-title"> ${joobleTitle}</div>
-        //       <div class='flex justify-between'>
-        //           <p class="text-gray-700 text-base" id="org-name">
-        //             ${joobleOrgName}
-        //           </p>
-        //           <form>
-        //             <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="submit">
-        //               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        //                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        //               </svg>
-        //             </button>
-        //           </form>
-        //       </div>
-        //     </div>
-        //     <div class="flex items-center px-6 pt-4 pb-2 border-b-2 s-purple-900">
-        //       <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#${
-        //         joobleTitle.split(" ")[0]
-        //       }</span>
-        //       <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#${
-        //         joobleTitle.split(" ")[1]
-        //       }</span>
-        //       <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Standard</span>
-        //     </div>
-        //   </div>
-        //     `;
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
-            <p class="text-gray-700 text-base">
-              ${joobleOrgName}
-            </p>
-            <p class="text-gray-700 text-base">
-              ${joobleDesc}
-            </p>
+            <div class="px-6 py-4 border-purple-900" id="job-container">
+              <div class="font-bold text-xl mb-2 flex justify-between" id="job-title"> 
+              ${joobleTitle}
+              <form class="pl-4">
+                    <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="submit">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
+                  </form>
+              </div>
+              <div class=''>
+                  <p class="text-gray-700 text-base" id="org-name">
+                    ${joobleOrgName}
+                  </p>
+                  <p class="text-gray-700 text-base">
+                    ${joobleDesc}
+                  </p>
+                  
+              </div>
+            </div>
+            <div class="flex items-center px-6 pt-4 pb-2 border-b-2 s-purple-900">
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Standard</span>
+            </div>
           </div>
-          <div class="px-6 pt-4 pb-2">
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
-          </div>
-        </div>`;
+            `;
+
+        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        //   <div class="px-6 py-4">
+        //     <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
+        //     <p class="text-gray-700 text-base">
+        //       ${joobleOrgName}
+        //     </p>
+        //     <p class="text-gray-700 text-base">
+        //       ${joobleDesc}
+        //     </p>
+        //   </div>
+        //   <div class="px-6 pt-4 pb-2">
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
+        //   </div>
+        // </div>`;
       }
     } else {
       resultContainer.textContent =
         "Could not find results for '" +
         searchJob +
         "' near " +
-        searchCity +
+        searchCity + 
         " please try again";
       resultContainer.setAttribute("class", "pb-3 font-medium");
     }
@@ -157,7 +160,7 @@ function intSearch(searchJob, searchCity) {
         var holdObj = {
           job: jobTitle + " @ " + orgName,
           city: searchCity,
-          state: "Random State",
+          state: "",
           type: "Standard",
         };
 
@@ -241,46 +244,51 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           resultContainer.setAttribute("class", "pb-3 font-medium");
         }
 
-        //   searchResults.innerHTML += `
-        //   <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        //   <div class="px-6 py-4 border-purple-900" id="job-container-gov">
-        //         <div class="font-bold text-xl mb-2" id="job-title"> ${usaPosition}</div>
-        //         <div class='flex justify-between'>
-        //             <p class="text-gray-700 text-base" id="org-name">
-        //               ${usaOrganizationName}
-        //             </p>
-        //             <form>
-        //               <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="button">
-        //                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        //                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        //                 </svg>
-        //               </button>
-        //             </form>
-        //         </div>
-        //       </div>
-        //   <div class="px-6 pt-4 pb-2">
-        //   <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Job</span>
-        //   <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Testing</span>
-        //   <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Governement</span>
-        //   </div>
-        // </div>
-        // `;
-
-        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
-            <p class="text-gray-700 text-base">
-              ${usaOrganizationName}
-            </p>
-            <p class="text-gray-700 text-base">
-              ${usaPositionDescSlice}
-            </p>
-          </div>
+          searchResults.innerHTML += `
+          <div class="max-w-sm rounded overflow-hidden shadow-lg">
+          <div class="px-6 py-4 border-purple-900" id="job-container-gov">
+                <div class="font-bold text-xl mb-2 flex justify-between" id="job-title"> 
+                ${usaPosition}
+                  <form class="pl-4">
+                    <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+                <div class=''>
+                    <p class="text-gray-700 text-base" id="org-name">
+                      ${usaOrganizationName}
+                    </p>
+                    <p class="text-gray-700 text-base">
+                    ${usaPositionDescSlice}
+                  </p>
+                </div>
+              </div>
           <div class="px-6 pt-4 pb-2">
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
+          <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
+          <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
+          <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Governement</span>
           </div>
-        </div>`;
+        </div>
+        `;
+
+        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        //   <div class="px-6 py-4">
+        //     <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
+        //     <p class="text-gray-700 text-base">
+        //       ${usaOrganizationName}
+        //     </p>
+        //     <p class="text-gray-700 text-base">
+        //       ${usaPositionDescSlice}
+        //     </p>
+        //   </div>
+        //   <div class="px-6 pt-4 pb-2">
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
+        //   </div>
+        // </div>`;
       }
       console.log(
         $("*[id=job-container-gov").each(function () {
@@ -347,8 +355,7 @@ function displaySavedSearches() {
       <div class=" border-gray-400 lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 justify-between leading-normal ">
         <div class="mb-8">
           <div class="text-gray-900 font-bold text-xl mb-2">${job.job}</div>
-          <p class="text-gray-700 text-base">It's a chill job man</p>
-          <p>${job.city}, ${job.state}</p>
+          <p class="fw-bold">${job.city} ${job.state}</p>
         </div>
       </div>
     </div>
