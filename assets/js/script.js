@@ -221,10 +221,12 @@ function intSearchUSA(searchJob, searchCity, searchState) {
     });
 }
 
+// stores data to local storage
 function storeData() {
   localStorage.setItem("searchHistory", JSON.stringify(arr));
 }
 
+// gets data from local storage
 function retrieveData() {
   var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
   if (arrJobs) {
@@ -234,6 +236,7 @@ function retrieveData() {
   }
 }
 
+// Takes the text input and splits into city and state components
 function parseCityState(string) {
   if (typeof string.split(",")[1] == "undefined") {
     var location = {
@@ -252,7 +255,7 @@ function parseCityState(string) {
   return location;
 };
 
-
+// To display saved jobs on the page
 function displaySavedSearches() {
   for (job of arr) {
     previousSearches.innerHTML += `
