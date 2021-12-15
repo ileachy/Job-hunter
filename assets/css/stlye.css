@@ -6,7 +6,8 @@
   --fifth-color: #5abfad;
 
   --color-bird: rgb(43, 2, 69);
-  --color-title: #370624;
+  --color-title: rgba(55, 6, 36, .6);
+  --color-title-full: #370624;
   --color-second: #feb93f;
 }
 .primary-color {
@@ -22,7 +23,7 @@ img {
 }
 
 h1 {
-  color: var(--color-title);
+  color: var(--color-title-full);
 }
 .img-sizer {
   width: 50%;
@@ -42,14 +43,18 @@ h1 {
   scrollbar-width: none; /* Firefox */
 }
 
-body {
+/* body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
+} */
 
 footer {
-  margin-top: auto;
-  color: var(--color-second);
   background-color: var(--color-title);
+}
+footer a, footer span {
+  color: var(--color-second)
+}
+header {
+  border-color: var(--color-title);
 }
