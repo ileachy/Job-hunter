@@ -43,5 +43,12 @@ h1 {
     scrollbar-width: none;  /* Firefox */
   }
 
+body {
+    height: 100vh;
+}
 
-
+footer {
+    margin-top: 200px;
+    color: var(--color-second);
+    background-color: var(--color-title);
+}

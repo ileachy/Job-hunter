@@ -2,9 +2,10 @@ var arr = [];
 var btnSearch = document.getElementById("job-search");
 var searchResults = document.querySelector(".search-results");
 var resultContainer = document.getElementById("search-result-header");
+var previousSearches = document.getElementById("previous-search");
 
 retrieveData();
-
+displaySavedSearches();
 
 btnSearch.addEventListener("submit", searchFunction);
 
@@ -12,9 +13,11 @@ function searchFunction(event) {
   event.preventDefault();
 
   // Need this to remove previous job searches from the page
-  $("#search-results").children().each(function () {
-    $(this).remove();
-  });
+  $("#search-results")
+    .children()
+    .each(function () {
+      $(this).remove();
+    });
 
   var searchTextJob = document.getElementById("text-search-job");
   var searchTextCity = document.getElementById("text-search-city");
@@ -29,8 +32,8 @@ function searchFunction(event) {
     city: location.city,
     state: location.state,
   };
-  arr.push(searchData);
-  storeData();
+  // arr.push(searchData);
+  // storeData();
 
   // Radio btn to decide whether standard or government jobs
   if (radioBTN === "standard") {
@@ -68,35 +71,103 @@ function intSearch(searchJob, searchCity) {
   //Callback when the state changes
   http.onreadystatechange = function () {
     if (http.readyState == 4 && http.status == 200) {
-      resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity;
+      resultContainer.textContent =
+        "All '" + searchJob + "' results near " + searchCity;
       resultContainer.setAttribute("class", "pb-3 font-medium");
 
-      console.log(JSON.parse(http.responseText))
-
+      console.log(JSON.parse(http.responseText));
 
       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
+        var joobleDesc = JSON.parse(http.responseText).jobs[i].snippet;
+        var joobleSource = JSON.parse(http.responseText).jobs[i].source;
+        var joobleUpdated = JSON.parse(http.responseText).jobs[i].updated;
+        var joobleUpdatedSlice = joobleUpdated.substring(0, 9);
+
+        console.log(joobleUpdated); 
+
+        console.log(http.responseText);
 
         // Display on DOM
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <div class="px-6 py-4 border-purple-900">
-          <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
-          <p class="text-gray-700 text-base">
-            ${joobleOrgName}
-          </p>
-        </div>
-        <div class="px-6 pt-4 pb-2 border-b-2 s-purple-900">
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-        </div>
-      </div>`
+            <div class="px-6 py-4 border-purple-900" id="job-container">
+              <div class="font-bold text-xl mb-2 flex justify-between" id="job-title"> 
+              ${joobleTitle}
+              <form class="pl-4">
+                    <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="submit">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
+                  </form>
+              </div>
+              <div class=''>
+                  <p class="text-gray-700 text-base" id="org-name">
+                    ${joobleOrgName}
+                  </p>
+                  <p class="text-gray-700 text-base">
+                    ${joobleDesc}
+                  </p>
+                  
+              </div>
+            </div>
+            <div class="flex items-center px-6 pt-4 pb-2 border-b-2 s-purple-900">
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Standard</span>
+            </div>
+          </div>
+            `;
+
+        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        //   <div class="px-6 py-4">
+        //     <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
+        //     <p class="text-gray-700 text-base">
+        //       ${joobleOrgName}
+        //     </p>
+        //     <p class="text-gray-700 text-base">
+        //       ${joobleDesc}
+        //     </p>
+        //   </div>
+        //   <div class="px-6 pt-4 pb-2">
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleSource}</span>
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${joobleUpdatedSlice}</span>
+        //   </div>
+        // </div>`;
       }
     } else {
-      resultContainer.textContent = "Could not find results for '" + searchJob + "' near " + searchCity + " please try again";
+      resultContainer.textContent =
+        "Could not find results for '" +
+        searchJob +
+        "' near " +
+        searchCity + 
+        " please try again";
       resultContainer.setAttribute("class", "pb-3 font-medium");
     }
+
+    // Listen to click on 'Add' button for each of the job listings, and add them to local storage
+    $("*[id=job-container]").each(function () {
+      $(this).on("submit", function (e) {
+        e.preventDefault();
+        // console.log($(this).find("#job-title").val())
+        console.log($(this).find("#job-title")[0].innerText);
+        console.log($(this).find("#org-name")[0].innerText);
+
+        var jobTitle = $(this).find("#job-title")[0].innerText;
+        var orgName = $(this).find("#org-name")[0].innerText;
+
+        var holdObj = {
+          job: jobTitle + " @ " + orgName,
+          city: searchCity,
+          state: "",
+          type: "Standard",
+        };
+
+        arr.push(holdObj);
+        storeData();
+      });
+    });
   };
   //Send request to the server
   http.send(params);
@@ -107,7 +178,13 @@ function intSearchUSA(searchJob, searchCity, searchState) {
   var host = "data.usajobs.gov";
   var userAgent = "ileach81@gmail.com";
   var authKey = "DOjDrxB7JE8vgKd3ajtL9XhA7+TQudbZSTT2N6tzPlo=";
-  var url = "https://data.usajobs.gov/api/search?Keyword=" + searchJob + "&LocationName=" + searchCity + ",%20" + searchState;
+  var url =
+    "https://data.usajobs.gov/api/search?Keyword=" +
+    searchJob +
+    "&LocationName=" +
+    searchCity +
+    ",%20" +
+    searchState;
   //"https://data.usajobs.gov/api/search?Keyword=Developer&LocationName=Boulder,%20Colorado";
   fetch(url, {
     method: "GET",
@@ -128,38 +205,120 @@ function intSearchUSA(searchJob, searchCity, searchState) {
         var usaPosition =
           data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
             .PositionTitle;
+        var usaPositionEndDate =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .PositionEndDate;
+        var usaPositionEndDateSlice =
+          "start: " + usaPositionEndDate.substring(0, 9);
 
+        var usaPositionStartDate =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .PositionStartDate;
+        var usaPositionStartDateSlice =
+          "end: " + usaPositionStartDate.substring(0, 9);
+        var usaPositionDesc =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .QualificationSummary;
+
+        var usaPositionDescSlice = usaPositionDesc.substring(0, 200) + "...";
+        var usePositionURL =
+          data.SearchResult.SearchResultItems[i].MatchedObjectDescriptor
+            .PositionURI;
+
+        console.log(usePositionURL);
+
+        //  https://data.usajobs.gov/api/Search?RemunerationMinimumAmount=26000&RemunerationMaximumAmount=85000
         // Display on DOM
         if (searchState === "") {
-          resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity;
+          resultContainer.textContent =
+            "All '" + searchJob + "' results near " + searchCity;
           resultContainer.setAttribute("class", "pb-3 font-medium");
         } else {
-          resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity + ", " + searchState;
+          resultContainer.textContent =
+            "All '" +
+            searchJob +
+            "' results near " +
+            searchCity +
+            ", " +
+            searchState;
           resultContainer.setAttribute("class", "pb-3 font-medium");
         }
 
+          searchResults.innerHTML += `
+          <div class="max-w-sm rounded overflow-hidden shadow-lg">
+          <div class="px-6 py-4 border-purple-900" id="job-container-gov">
+                <div class="font-bold text-xl mb-2 flex justify-between" id="job-title"> 
+                ${usaPosition}
+                  <form class="pl-4">
+                    <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+                <div class=''>
+                    <p class="text-gray-700 text-base" id="org-name">
+                      ${usaOrganizationName}
+                    </p>
+                    <p class="text-gray-700 text-base">
+                    ${usaPositionDescSlice}
+                  </p>
+                </div>
+              </div>
+          <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
+          <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
+          <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Governement</span>
+          </div>
+        </div>
+        `;
 
-        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
-          <p class="text-gray-700 text-base">
-            ${usaOrganizationName}
-          </p>
-        </div>
-        <div class="px-6 pt-4 pb-2">
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-        </div>
-      </div>`
+        // searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        //   <div class="px-6 py-4">
+        //     <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
+        //     <p class="text-gray-700 text-base">
+        //       ${usaOrganizationName}
+        //     </p>
+        //     <p class="text-gray-700 text-base">
+        //       ${usaPositionDescSlice}
+        //     </p>
+        //   </div>
+        //   <div class="px-6 pt-4 pb-2">
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionEndDateSlice}</span>
+        //     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${usaPositionStartDateSlice}</span>
+        //   </div>
+        // </div>`;
       }
+      console.log(
+        $("*[id=job-container-gov").each(function () {
+          $(this).on("click", function () {
+            console.log($(this).find("#job-title")[0].innerText);
+            console.log($(this).find("#org-name")[0].innerText);
+
+            var jobTitle = $(this).find("#job-title")[0].innerText;
+            var orgName = $(this).find("#org-name")[0].innerText;
+
+            var holdObj = {
+              job: jobTitle + " @ " + orgName,
+              city: searchCity,
+              state: searchState,
+              type: "Government",
+            };
+            arr.push(holdObj);
+            storeData();
+          });
+        })
+      );
     });
 }
 
+// stores data to local storage
 function storeData() {
   localStorage.setItem("searchHistory", JSON.stringify(arr));
 }
 
+// gets data from local storage
 function retrieveData() {
   var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
   if (arrJobs) {
@@ -169,11 +328,12 @@ function retrieveData() {
   }
 }
 
+// Takes the text input and splits into city and state components
 function parseCityState(string) {
   if (typeof string.split(",")[1] == "undefined") {
     var location = {
       city: string.split(",")[0],
-      state: ""
+      state: "",
     };
   } else {
     var holdStringLeft = string.split(",")[0];
@@ -181,9 +341,24 @@ function parseCityState(string) {
 
     var location = {
       city: holdStringLeft,
-      state: holdStringRight
+      state: holdStringRight,
     };
   }
-
   return location;
-};
+}
+
+// To display saved jobs on the page
+function displaySavedSearches() {
+  for (job of arr) {
+    previousSearches.innerHTML += `
+    <div class="max-w-sm w-full lg:max-w-full lg:border-b border-r border-b shadow-md">
+      <div class=" border-gray-400 lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 justify-between leading-normal ">
+        <div class="mb-8">
+          <div class="text-gray-900 font-bold text-xl mb-2">${job.job}</div>
+          <p class="fw-bold">${job.city} ${job.state}</p>
+        </div>
+      </div>
+    </div>
+    `;
+  }
+}
