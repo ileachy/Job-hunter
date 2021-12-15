@@ -1,33 +1,32 @@
 :root {
-    --primary-color: #161459;
-    --secondary-color: #010326;
-    --third-color: #010326;
-    --fourth-color: #3C74A6;
-    --fifth-color: #5ABFAD;
+  --primary-color: #161459;
+  --secondary-color: #010326;
+  --third-color: #010326;
+  --fourth-color: #3c74a6;
+  --fifth-color: #5abfad;
 
-    --color-bird: rgb(43, 2, 69);
-    --color-title: #370624;
-    --color-second: #FEB93F;
-    
+  --color-bird: rgb(43, 2, 69);
+  --color-title: #370624;
+  --color-second: #feb93f;
 }
 .primary-color {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 
 .bg-second {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 img {
-    width: 100%;
-    padding: 10px;
+  width: 100%;
+  padding: 10px;
 }
 
 h1 {
-    color: var(--color-title);
+  color: var(--color-title);
 }
 .img-sizer {
-    width:50%;
-    height: 50%;
+  width: 50%;
+  height: 50%;
 }
 /* .border {
     border: 2px solid var(--fourth-color);
@@ -35,20 +34,22 @@ h1 {
 
 /* Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  
+  display: none;
+}
+
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 body {
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 footer {
-    margin-top: 200px;
-    color: var(--color-second);
-    background-color: var(--color-title);
+  margin-top: auto;
+  color: var(--color-second);
+  background-color: var(--color-title);
 }
