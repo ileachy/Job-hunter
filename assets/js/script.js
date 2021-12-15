@@ -13,9 +13,11 @@ function searchFunction(event) {
   event.preventDefault();
 
   // Need this to remove previous job searches from the page
-  $("#search-results").children().each(function () {
-    $(this).remove();
-  });
+  $("#search-results")
+    .children()
+    .each(function () {
+      $(this).remove();
+    });
 
   var searchTextJob = document.getElementById("text-search-job");
   var searchTextCity = document.getElementById("text-search-city");
@@ -69,15 +71,17 @@ function intSearch(searchJob, searchCity) {
   //Callback when the state changes
   http.onreadystatechange = function () {
     if (http.readyState == 4 && http.status == 200) {
-      resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity;
+      resultContainer.textContent =
+        "All '" + searchJob + "' results near " + searchCity;
       resultContainer.setAttribute("class", "pb-3 font-medium");
 
-      console.log(JSON.parse(http.responseText))
-
+      console.log(JSON.parse(http.responseText));
 
       for (let i = 0; i < JSON.parse(http.responseText).jobs.length; i++) {
         var joobleOrgName = JSON.parse(http.responseText).jobs[i].company;
         var joobleTitle = JSON.parse(http.responseText).jobs[i].title;
+
+        console.log(http.responseText);
 
         // Display on DOM
         searchResults.innerHTML +=
@@ -106,7 +110,12 @@ function intSearch(searchJob, searchCity) {
             `
       }
     } else {
-      resultContainer.textContent = "Could not find results for '" + searchJob + "' near " + searchCity + " please try again";
+      resultContainer.textContent =
+        "Could not find results for '" +
+        searchJob +
+        "' near " +
+        searchCity +
+        " please try again";
       resultContainer.setAttribute("class", "pb-3 font-medium");
     }
 
@@ -143,7 +152,13 @@ function intSearchUSA(searchJob, searchCity, searchState) {
   var host = "data.usajobs.gov";
   var userAgent = "ileach81@gmail.com";
   var authKey = "DOjDrxB7JE8vgKd3ajtL9XhA7+TQudbZSTT2N6tzPlo=";
-  var url = "https://data.usajobs.gov/api/search?Keyword=" + searchJob + "&LocationName=" + searchCity + ",%20" + searchState;
+  var url =
+    "https://data.usajobs.gov/api/search?Keyword=" +
+    searchJob +
+    "&LocationName=" +
+    searchCity +
+    ",%20" +
+    searchState;
   //"https://data.usajobs.gov/api/search?Keyword=Developer&LocationName=Boulder,%20Colorado";
   fetch(url, {
     method: "GET",
@@ -167,10 +182,17 @@ function intSearchUSA(searchJob, searchCity, searchState) {
 
         // Display on DOM
         if (searchState === "") {
-          resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity;
+          resultContainer.textContent =
+            "All '" + searchJob + "' results near " + searchCity;
           resultContainer.setAttribute("class", "pb-3 font-medium");
         } else {
-          resultContainer.textContent = "All '" + searchJob + "' results near " + searchCity + ", " + searchState;
+          resultContainer.textContent =
+            "All '" +
+            searchJob +
+            "' results near " +
+            searchCity +
+            ", " +
+            searchState;
           resultContainer.setAttribute("class", "pb-3 font-medium");
         }
 
@@ -241,7 +263,7 @@ function parseCityState(string) {
   if (typeof string.split(",")[1] == "undefined") {
     var location = {
       city: string.split(",")[0],
-      state: ""
+      state: "",
     };
   } else {
     var holdStringLeft = string.split(",")[0];
@@ -249,7 +271,7 @@ function parseCityState(string) {
 
     var location = {
       city: holdStringLeft,
-      state: holdStringRight
+      state: holdStringRight,
     };
   }
   return location;
