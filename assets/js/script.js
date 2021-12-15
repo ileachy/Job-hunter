@@ -2,8 +2,10 @@ var arr = [];
 var btnSearch = document.getElementById("job-search");
 var searchResults = document.querySelector(".search-results");
 var resultContainer = document.getElementById("search-result-header");
+var previousSearches = document.getElementById("previous-search");
 
 retrieveData();
+displaySavedSearches();
 
 btnSearch.addEventListener("submit", searchFunction);
 
@@ -30,8 +32,8 @@ function searchFunction(event) {
     city: location.city,
     state: location.state,
   };
-  arr.push(searchData);
-  storeData();
+  // arr.push(searchData);
+  // storeData();
 
   // Radio btn to decide whether standard or government jobs
   if (radioBTN === "standard") {
@@ -82,19 +84,30 @@ function intSearch(searchJob, searchCity) {
         console.log(http.responseText);
 
         // Display on DOM
-        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <div class="px-6 py-4 border-purple-900">
-          <div class="font-bold text-xl mb-2"> ${joobleTitle}</div>
-          <p class="text-gray-700 text-base">
-            ${joobleOrgName}
-          </p>
-        </div>
-        <div class="px-6 pt-4 pb-2 border-b-2 s-purple-900">
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-        </div>
-      </div>`;
+        searchResults.innerHTML +=
+          `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+            <div class="px-6 py-4 border-purple-900" id="job-container">
+              <div class="font-bold text-xl mb-2" id="job-title"> ${joobleTitle}</div>
+              <div class='flex justify-between'>
+                  <p class="text-gray-700 text-base" id="org-name">
+                    ${joobleOrgName}
+                  </p>
+                  <form>
+                    <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="submit"> 
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
+                  </form>
+              </div>
+            </div>
+            <div class="flex items-center px-6 pt-4 pb-2 border-b-2 s-purple-900">
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#${joobleTitle.split(" ")[0]}</span>
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#${joobleTitle.split(" ")[1]}</span>
+              <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Standard</span>
+            </div>
+          </div>
+            `
       }
     } else {
       resultContainer.textContent =
@@ -105,6 +118,30 @@ function intSearch(searchJob, searchCity) {
         " please try again";
       resultContainer.setAttribute("class", "pb-3 font-medium");
     }
+
+    // Listen to click on 'Add' button for each of the job listings, and add them to local storage
+    ($("*[id=job-container]")).each(function () {
+      $(this).on("submit", function (e) {
+        e.preventDefault();
+        // console.log($(this).find("#job-title").val())
+        console.log($(this).find("#job-title")[0].innerText)
+        console.log($(this).find("#org-name")[0].innerText)
+
+        var jobTitle = $(this).find("#job-title")[0].innerText;
+        var orgName = $(this).find("#org-name")[0].innerText;
+
+        var holdObj = {
+          job: jobTitle + " @ " + orgName,
+          city: searchCity,
+          state: "Random State",
+          type: "Standard"
+        }
+
+        arr.push(holdObj);
+        storeData();
+      })
+    });
+
   };
   //Send request to the server
   http.send(params);
@@ -159,27 +196,59 @@ function intSearchUSA(searchJob, searchCity, searchState) {
           resultContainer.setAttribute("class", "pb-3 font-medium");
         }
 
-        searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2"> ${usaPosition}</div>
-          <p class="text-gray-700 text-base">
-            ${usaOrganizationName}
-          </p>
-        </div>
+        searchResults.innerHTML += `
+        <div class="max-w-sm rounded overflow-hidden shadow-lg">
+        <div class="px-6 py-4 border-purple-900" id="job-container-gov">
+              <div class="font-bold text-xl mb-2" id="job-title"> ${usaPosition}</div>
+              <div class='flex justify-between'>
+                  <p class="text-gray-700 text-base" id="org-name">
+                    ${usaOrganizationName}
+                  </p>
+                  <form>
+                    <button class=" inline-block bg-purple-900 rounded px-2 py-2 text-sm font-semibold text-yellow-500 mr-2 mb-2 hover:bg-purple-500" type="button"> 
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </button>
+                  </form>
+              </div>
+            </div>
         <div class="px-6 pt-4 pb-2">
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+        <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Job</span>
+        <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Testing</span>
+        <span class="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-violet-800 mr-2 mb-2">#Governement</span>
         </div>
-      </div>`;
+      </div>
+      `
+
       }
+      console.log($("*[id=job-container-gov").each(function(){
+        $(this).on("click", function(){
+          console.log($(this).find("#job-title")[0].innerText)
+          console.log($(this).find("#org-name")[0].innerText)
+
+          var jobTitle = $(this).find("#job-title")[0].innerText;
+          var orgName = $(this).find("#org-name")[0].innerText;
+
+          var holdObj = {
+            job: jobTitle + " @ " + orgName,
+            city: searchCity,
+            state: searchState,
+            type: "Government"
+          }
+          arr.push(holdObj);
+          storeData();
+        })
+      }))
     });
 }
 
+// stores data to local storage
 function storeData() {
   localStorage.setItem("searchHistory", JSON.stringify(arr));
 }
 
+// gets data from local storage
 function retrieveData() {
   var arrJobs = JSON.parse(localStorage.getItem("searchHistory"));
   if (arrJobs) {
@@ -189,6 +258,7 @@ function retrieveData() {
   }
 }
 
+// Takes the text input and splits into city and state components
 function parseCityState(string) {
   if (typeof string.split(",")[1] == "undefined") {
     var location = {
@@ -204,6 +274,23 @@ function parseCityState(string) {
       state: holdStringRight,
     };
   }
-
   return location;
+};
+
+// To display saved jobs on the page
+function displaySavedSearches() {
+  for (job of arr) {
+    previousSearches.innerHTML += `
+    <div class="max-w-sm w-full lg:max-w-full lg:border-b border-r border-b shadow-md">
+      <div class=" border-gray-400 lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 justify-between leading-normal ">
+        <div class="mb-8">
+          <div class="text-gray-900 font-bold text-xl mb-2">${job.job}</div>
+          <p class="text-gray-700 text-base">It's a chill job man</p>
+          <p>${job.city}, ${job.state}</p>
+        </div>
+      </div>
+    </div>
+    `
+  }
 }
+
