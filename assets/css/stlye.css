@@ -43,11 +43,13 @@ h1 {
 }
 
 body {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 footer {
-  margin-top: 200px;
+  margin-top: auto;
   color: var(--color-second);
   background-color: var(--color-title);
 }
