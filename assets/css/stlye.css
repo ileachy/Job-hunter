@@ -22,6 +22,18 @@ img {
   padding: 10px;
 }
 
+body {
+  background-color: #fef5ed;
+}
+
+#gov-label {
+  color: #370624;
+}
+
+#h3-media {
+  color: #370624;
+}
+
 h1 {
   color: var(--color-title-full);
 }
