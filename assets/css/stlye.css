@@ -77,7 +77,7 @@ header {
 }
 
 /* Media Queries */
-@media screen and (max-width: 415px) {
+/* @media screen and (max-width: 415px) {
   .items-center {
     display: flex;
     flex-direction: column;
@@ -110,4 +110,4 @@ header {
     margin-left: 25px;
     border-bottom: solid gray 1px;
   }
-}
+} */
