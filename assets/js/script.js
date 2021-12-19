@@ -86,6 +86,7 @@ function intSearch(searchJob, searchCity) {
         var joobleSource = JSON.parse(http.responseText).jobs[i].source;
         var joobleUpdated = JSON.parse(http.responseText).jobs[i].updated;
         var joobleUpdatedSlice = joobleUpdated.substring(0, 9);
+        searchResults.style.backgroundColor = "white";
 
         // Display on DOM
         searchResults.innerHTML += `<div class="max-w-sm rounded overflow-hidden shadow-lg">
@@ -325,3 +326,9 @@ function displaySavedSearches() {
     `;
   }
 }
+
+// Button to clear page content
+var clearBtn = document.querySelector("#clear-btn");
+clearBtn.addEventListener("click", function () {
+  location.reload();
+});
