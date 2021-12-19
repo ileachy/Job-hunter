@@ -13,7 +13,7 @@
 
 ## Project MVP
 
-![](image/JobHunterpic.png)
+![](image/TheJobHunterFinal.png)
 
 ## GitHub info
 
