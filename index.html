@@ -24,23 +24,22 @@
       </div>
     </header>
 
-    <div class="media-select">
       <section class="h-screen mb-auto">
         <!-- <input type="file" name="file" id="file"> -->
-        <div class="grid grid-cols-2 max-w-4xl gap-4 mx-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 max-w-4xl gap-4 mx-auto justify-items-center">
           <div class="my-5">
             <form class="mb-0" id="job-search">
               <div id="beef" class="flex items-center">
                 <input
                   type="text"
                   placeholder="Search for Job Titles"
-                  class="w-1/2 my-3 mx-2"
+                  class="w-5/12 my-3 mx-2 rounded-lg"
                   id="text-search-job"
                 />
                 <input
                   type="text"
                   placeholder="San Diego, California"
-                  class="w-1/2 my-3 mx-2"
+                  class="w-5/12 my-3 mx-2 rounded-lg"
                   id="text-search-city"
                 />
                 <!-- <input type="text" placeholder="Enter state for job search:" class="w-1/2 my-3 mx-2" id="text-search-state" /> -->
@@ -108,23 +107,23 @@
                 </button>
               </div>
               <div class="my-2 mx-2">
-                <div class="media-con">
-                  <label class="label-style" for="gob-jobs">Standard</label>
+                <div class="flex inline-flex items-center">
+                  <label class="label-style mr-1" for="gob-jobs">Standard</label>
                   <input
                     type="radio"
                     value="standard"
-                    class="radio-primary"
+                    class=""
                     name="job-type"
                     id="Standard-jobs"
                     checked
                   />
-                  <label class="label-style" id="gov-label" for="gob-jobs"
+                  <label class="label-style mr-1" id="gov-label" for="gob-jobs"
                     >Government</label
                   >
                   <input
                     type="radio"
                     value="government"
-                    class="radio-primary"
+                    class=""
                     name="job-type"
                     id="gov-jobs"
                   />
@@ -166,7 +165,7 @@
         </div>
       </section>
 
-      <footer class="text-center lg:text-left fixed inset-x-0 bottom-0 p-2">
+      <footer class="invisible md:visible text-center lg:text-left fixed inset-x-0 bottom-0 p-2">
         <div class="text-center p-1">
           <span>© 2021 Copyright:</span>
           <a class="font-semibold" href="https://github.com/ileachy/Job-hunter"
@@ -174,7 +173,6 @@
           >
         </div>
       </footer>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./assets/js/script.js"></script>
